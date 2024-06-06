@@ -81,3 +81,30 @@ if __name__ == "__main__":
     predictions = modified_svm.predict(X)
 
     print("Predictions:", predictions)
+# Example usage (breast cancer}
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Load the Breast Cancer dataset
+data = load_breast_cancer()
+X, y = data.data, data.target
+
+# Preprocess the data
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Apply the ModifiedSVM model
+modified_svm = ModifiedSVM(C=1.0, w1=0.5, w2=0.5)  # Initialize with your parameters
+modified_svm.fit(X_train, y_train)
+
+# Make predictions on the testing set
+predictions = modified_svm.predict(X_test)
+
+# Evaluate the model
+accuracy = np.mean(predictions == y_test)
+print("Accuracy:", accuracy)
